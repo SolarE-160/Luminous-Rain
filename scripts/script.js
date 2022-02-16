@@ -1,16 +1,3 @@
-const config = {
-	type: Phaser.AUTO,
-	width: 600,
-	height: 400,
-	backgroundColor: "#1e1e46",
-  plugins: {
-    global: [
-      { key: 'BulletPlugin', plugin: BulletPlugin, start: true }
-    ]
-  },
-	scene: [Stage],
-}
-
 const game = {};
 
 class Stage extends Phaser.Scene {
@@ -50,5 +37,17 @@ class Stage extends Phaser.Scene {
   }
 }
 
+const config = {
+	type: Phaser.AUTO,
+	width: 600,
+	height: 400,
+	backgroundColor: "#1e1e46",
+  plugins: {
+    global: [
+      { key: 'BulletPlugin', plugin: BulletPlugin, start: true }
+    ]
+  },
+	scene: [Stage],
+}
 
 const g = new Phaser.Game(config)
