@@ -19,7 +19,13 @@ class Stage extends Phaser.Scene {
       let randomY = Math.random() * 400;
       game.circleArray.push([this.add.circle(randomX, randomY, 12, 0x0080FF), this.add.circle(randomX, randomY, 8, 0xFFFFFF)]);
     }*/
-    this.add.bullet(300, 200, 0, 0, 10, 0)
+    game.bullets = this.add.group();
+    for (let i = 0; i < 10; i++) {
+      //let singlebulletglow = this.add.glowBullet(300, 150 + i * 10, 1, 0, 5, 0);
+      let singlebullet = this.add.bullet(300, 150 + i * 10, 1, 0, 5, 0);
+      //game.bullets.add(singlebulletglow);
+      game.bullets.add(singlebullet);
+    }
   }
 
   update() {
@@ -33,18 +39,22 @@ class Stage extends Phaser.Scene {
       particle[1].y += randomY;
     }
     */
-
+    for (let singlebullet of game.bullets.getChildren()) {
+      singlebullet.draw();
+    }
   }
 }
 
 const config = {
 	type: Phaser.AUTO,
-	width: 600,
-	height: 400,
+	width: 800,
+	height: 600,
+  resolution: window.devicePixelRatio,
 	backgroundColor: "#1e1e46",
   plugins: {
     global: [
-      { key: 'BulletPlugin', plugin: BulletPlugin, start: true }
+      { key: 'BulletPlugin', plugin: BulletPlugin, start: true },
+      //{ key: 'GlowBulletPlugin', plugin: GlowBulletPlugin, start: true }
     ]
   },
 	scene: [Stage],
