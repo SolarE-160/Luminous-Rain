@@ -4,7 +4,7 @@ class Altale extends Stage {
     this.tempo = 180;
     this.offset = 16;
     this.ts = 6;
-    this.songPath = "Altale.m4a";
+    this.songPath = "songs/Altale.m4a";
     this.map = [];
     this.storyboard = false;
     Object.assign(this, level);
