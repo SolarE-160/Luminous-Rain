@@ -1,6 +1,6 @@
 const config = {
   type: Phaser.AUTO,
-  width: 800,
+  width: 900,
   height: 600,
   resolution: window.devicePixelRatio,
   backgroundColor: "#1e1e46",
@@ -14,7 +14,8 @@ const config = {
   plugins: {
     global: [
       { key: "BulletPlugin", plugin: BulletPlugin, start: true },
-      { key: "GlowPlugin", plugin: GlowPlugin, start: true },
+      { key: "CircleWarningPlugin", plugin: CircleWarningPlugin, start: true },
+      { key: "LineWarningPlugin", plugin: LineWarningPlugin, start: true },
     ],
   },
   scene: [Altale],
