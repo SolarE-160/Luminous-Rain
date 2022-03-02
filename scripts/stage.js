@@ -144,7 +144,7 @@ class Stage extends Phaser.Scene {
       game.player.getChildren()[3],
       (player, bullet) => {
         //console.log("die");
-        if (bullet instanceof Bullet) {
+        if (bullet instanceof Bullet && !bullet.dec) {
           bullet.destroy();
         }
       }

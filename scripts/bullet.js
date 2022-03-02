@@ -8,9 +8,15 @@ let movingObject = {
       this.life--;
       this.visible = true;
       this.active = true;
-      this.x += this.vx;
-      this.y += this.vy;
-      this.vy += this.grav;
+      if (!this.para) {
+        this.x += this.vx * rate;
+        this.y += this.vy * rate;
+        this.vy += this.grav * rate;
+      } else {
+        this.x = this.para(this.t)[0];
+        this.y = this.para(this.t)[1];
+        this.t += rate;
+      }
       if (
         this.x < -outerBoxMargin ||
         this.x > 600 + outerBoxMargin ||
@@ -41,6 +47,8 @@ class Bullet extends Phaser.GameObjects.Ellipse {
     this.life = life;
     this.visible = delay > 0 ? false : true;
     this.exited = false;
+    this.t = 0
+    this.para = para;
     Object.assign(this, movingObject);
   }
 }
@@ -61,15 +69,16 @@ class BulletPlugin extends Phaser.Plugins.BasePlugin {
   }
 }
 
-class CircleWarning extends Phaser.GameObjects.Ellipse {
+class CircleWarning extends Phaser.GameObjects.PointLight {
   constructor(scene, x, y, r, length) {
-    super(scene, x, y, r * 2, r * 2, 0xff0000, 0);
+    super(scene, x, y, 0xff0000, r, 0.4);
+    this.alpha = 0
     this.length = 0;
     this.fullLength = length;
   }
   
   move(trate=1) {
-    this.fillAlpha = this.length / this.fullLength * 0.8; //change for target alpha
+    this.alpha = this.length / this.fullLength * 0.8; //change for target alpha
     this.length++;
   }
 }

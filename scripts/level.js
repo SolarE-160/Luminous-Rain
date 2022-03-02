@@ -33,6 +33,86 @@ let level = {
     return bulletList;
   },
   
+  field(beats, density=5, speed=4, col=0x00ff00) {
+    let bulletList = [];
+    let len = this.getTime(beats);
+    for (var i = 0; i < len; i += density) {
+      bulletList.push(["bullet", [Math.random() * 600, 0, 0, speed, 3, i + this.getTime(4) + Math.random() * density + density * 0.5, 0, col]]);
+    }
+    return bulletList;
+  },
+  
+  trail(x, y, xf, yf, beats, density=4, grav=0.03, offset=0, randomize=0, col=0xff8000) {
+    let vx = (xf - x) / this.getTime(beats);
+    let vy = (yf - y) / this.getTime(beats);
+    let bulletList = [["bullet", [x, y, vx, vy, 7, this.getTime(3.5), 0, 0xff0000, true, this.getTime(beats)]]];
+    for (var i = 0; i < beats * density; i++) {
+      let x0 = vx * this.getTime((i + 0.5 + offset) / density) + x;
+      let y0 = vy * this.getTime((i + 0.5 + offset) / density) + y;
+      bulletList.push(["bullet", [x0, y0, Math.random() * randomize * 2 - randomize, Math.random() * 2 * randomize - randomize, 4, this.getTime(3.75 + i / density), grav, col]]);
+    }
+    return bulletList;
+  },
+  
+  path(para, trail=false, followLength=0, trailDensity=4, followDensity=4, dec=false, life=999999, trailGrav=0.02, col=0x00fa96, r=4) {
+    let rad;
+    if (trail) {
+      rad = 6;
+    } else {
+      rad = r;
+    }
+    let bulletList = [["bullet", [-10, -10, 0, 0, rad, this.getTime(4), 0.01, col, dec, life, para]]];
+    for (var i = 0; i < followLength * followDensity; i++) {
+      bulletList.push(["bullet", [-10, -10, 0, 0, rad, this.getTime(4 + i / followDensity), 0.01, col, dec, life, para]]);
+      //print(bulletList);
+    }
+    if (trail) {
+      let simTime = 0;
+      let simX = para(simTime)[0];
+      let simY = para(simTime)[1];
+      while (
+        simX > -outerBoxMargin &&
+        simX < 600 + outerBoxMargin &&
+        simY > -outerBoxMargin &&
+        simY < 600 + outerBoxMargin
+      ) {
+        simX = para(simTime)[0];
+        simY = para(simTime)[1];
+        if (simTime % trailDensity == 0) {
+          bulletList.push(["bullet", [simX, simY, 0, 0, r, simTime + this.getTime(4), trailGrav, col]]);
+        }
+        simTime++;
+      }
+    }
+    return bulletList;
+  },
+  
+  flower(x, y, p, q, density=32, col=0x8000ff, size=3, warn=true, rotOffset=random(0, 2 * Math.PI), grav=0.01, r=4) {
+    let bulletList = [];
+    if (warn) {
+      bulletList = [["circleWarning", [x, y, density / 3, this.getTime(4)]]];
+    }
+    let period;
+    if (p % 2 == 1 && q % 2 == 1) {
+      period = Math.PI * q;
+    } else {
+      period = Math.PI * q * 2
+    }
+    for (var i = 0; i < period; i += period / density) {
+      let vx = size * Math.cos(p / q * (i + rotOffset)) * Math.cos(i + rotOffset);
+      let vy = size * Math.cos(p / q * (i + rotOffset)) * Math.sin(i + rotOffset);
+      bulletList.push(["bullet", [x, y, vx, vy, r, this.getTime(4), grav, col]]);
+    }
+    return bulletList;
+  },
+  
+  changeTempo(newBPM, newTS=this.ts) {
+    let tempoList = ["tempo change", newBPM, newTS];
+    this.tempo = newBPM;
+    //this.ts = newTS;
+    return tempoList;
+  },
+  
   run() {
     this.buildMap();
     let parsedMap = [];
