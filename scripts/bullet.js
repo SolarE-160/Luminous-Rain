@@ -6,7 +6,11 @@ let movingObject = {
     let rate = trate;
     if (this.delay <= 0) {
       this.life--;
-      this.visible = true;
+      if (!this.dec) {
+        this.visible = true;
+      } else {
+        this.visible = false;
+      }
       this.active = true;
       if (!this.para) {
         this.x += this.vx * rate;
@@ -53,6 +57,7 @@ class Bullet extends Phaser.GameObjects.Ellipse {
   }
 }
 
+
 class BulletPlugin extends Phaser.Plugins.BasePlugin {
   constructor(pluginManager) {
     super(pluginManager);
@@ -68,6 +73,7 @@ class BulletPlugin extends Phaser.Plugins.BasePlugin {
     );
   }
 }
+
 
 class CircleWarning extends Phaser.GameObjects.PointLight {
   constructor(scene, x, y, r, length) {

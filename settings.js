@@ -17,4 +17,6 @@ const settings = {
   hitboxRadius: 1,
   
   songRefreshRate: 4,
+  
+  flickerSmooth: 0.5,
 }
