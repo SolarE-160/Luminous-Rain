@@ -5,7 +5,7 @@ class MainMenu extends Phaser.Scene {
   }
   
   preload() {
-    this.load.image("bb", "bb.png");
+    this.load.image("bb", "assets/bb.png");
     this.getSong("songs/0f.mp3");
   }
   

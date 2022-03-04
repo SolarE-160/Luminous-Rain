@@ -18,7 +18,7 @@ const config = {
       { key: "LineWarningPlugin", plugin: LineWarningPlugin, start: true },
     ],
   },
-  scene: [Altale],
+  scene: [MainMenu, Altale],
 };
 
 const g = new Phaser.Game(config);
