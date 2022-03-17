@@ -46,6 +46,7 @@ let musicScenes = {
     this.sound = {};
     this.sound.sourceNode = this.audioContext.createBufferSource();
     this.sound.analyserNode = this.audioContext.createAnalyser();
+    this.sound.gainNode = this.audioContext.createGain();
     this.sound.javascriptNode = this.audioContext.createScriptProcessor(
       1024,
       1,
@@ -54,9 +55,25 @@ let musicScenes = {
     this.sound.amplitudeArray = new Uint8Array(
       this.sound.analyserNode.frequencyBinCount
     );
-    this.sound.sourceNode.connect(this.audioContext.destination);
+    this.sound.sourceNode.connect(this.sound.gainNode);
+    this.sound.gainNode.connect(this.audioContext.destination);
     this.sound.sourceNode.connect(this.sound.analyserNode);
     this.sound.analyserNode.connect(this.sound.javascriptNode);
     this.sound.javascriptNode.connect(this.audioContext.destination);
+    
+    this.ampPrevArray = new Array(settings.flickerSmoothLen).fill(0);
+  },
+  
+  setFlicker() {
+    if (this.audioPlaying) {
+      this.sound.analyserNode.getByteTimeDomainData(this.sound.amplitudeArray);
+      this.ampVal = Math.max(...this.sound.amplitudeArray);
+      let ampSmooth = this.ampPrevArray.reduce((a, b) => (a + b)) / settings.flickerSmoothLen;
+      this.flicker = ((ampSmooth - 128) / 128) * 0.8 + 0.2;
+      this.ampPrevArray.shift();
+      this.ampPrevArray.push(this.ampVal);
+    } else {
+      this.flicker = 0.2;
+    }
   }
 }

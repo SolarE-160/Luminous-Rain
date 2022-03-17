@@ -9,14 +9,16 @@ const settings = {
   // false: two-shape
   //sts: false,
   
+  // start time
+  startTime: 0,
   
   // speed of the player
   speed: 250,
   
   // radius of hitbox circle of player
-  hitboxRadius: 1,
+  hitboxRadius: 4,
   
-  songRefreshRate: 4,
+  songRefreshRate: 1,
   
-  flickerSmooth: 0.5,
+  flickerSmoothLen: 5,
 }

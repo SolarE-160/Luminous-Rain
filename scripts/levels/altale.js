@@ -2,11 +2,11 @@ class Altale extends Stage {
   constructor() {
     super("Altale");
     this.tempo = 180;
-    this.offset = -50;
+    this.offset = 10;
     this.ts = 6;
     this.songPath = "songs/Altale.m4a";
     this.map = [];
-    this.storyboard = false;
+    this.storyboard = true;
     Object.assign(this, level);
   }
   
@@ -44,6 +44,7 @@ class Altale extends Stage {
   buildMap() {
     this.map = [
       [
+        //[1, this.flower(300, 200, 5, 4, 500)],
         [1, this.explode(300, 100, 4)],
         [4, this.explode(150, 100, 4)],
       ],
@@ -135,22 +136,22 @@ class Altale extends Stage {
         [4, this.trail(520, 0, 50, 600, 2)],
       ],
       [
-        [1, this.firework(0, 600, random(50, 550), random(50, 200), 2)],
-        [2, this.firework(0, 600, random(50, 550), random(50, 200), 2)],
-        [3, this.firework(0, 600, random(50, 550), random(50, 200), 2)],
-        [4, this.firework(600, 600, random(50, 550), random(50, 200), 2)],
-        [5, this.firework(600, 600, random(50, 550), random(50, 200), 2)],
-        [6, this.firework(600, 600, random(50, 550), random(50, 200), 2)],
+        [1, this.firework(0, 600, random(50, 550), random(50, 200), 3)],
+        [2, this.firework(0, 600, random(50, 550), random(50, 200), 3)],
+        [3, this.firework(0, 600, random(50, 550), random(50, 200), 3)],
+        [4, this.firework(600, 600, random(50, 550), random(50, 200), 3)],
+        [5, this.firework(600, 600, random(50, 550), random(50, 200), 3)],
+        [6, this.firework(600, 600, random(50, 550), random(50, 200), 3)],
       ],
       [
-        [1, this.firework(0, 600, random(50, 550), random(50, 200), 2)],
-        [2, this.firework(0, 600, random(50, 550), random(50, 200), 2)],
-        [3, this.firework(0, 600, random(50, 550), random(50, 200), 2)],
-        [4, this.firework(600, 600, random(50, 550), random(50, 200), 2)],
-        [5, this.firework(600, 600, random(50, 550), random(50, 200), 2)],
-        [5.5, this.firework(600, 600, random(50, 550), random(50, 200), 2)],
-        [6, this.firework(600, 600, random(50, 550), random(50, 200), 2)],
-        [6.5, this.firework(600, 600, random(50, 550), random(50, 200), 2)],
+        [1, this.firework(0, 600, random(50, 550), random(50, 200), 3)],
+        [2, this.firework(0, 600, random(50, 550), random(50, 200), 3)],
+        [3, this.firework(0, 600, random(50, 550), random(50, 200), 3)],
+        [4, this.firework(600, 600, random(50, 550), random(50, 200), 3)],
+        [5, this.firework(600, 600, random(50, 550), random(50, 200), 3)],
+        [5.5, this.firework(600, 600, random(50, 550), random(50, 200), 3)],
+        [6, this.firework(600, 600, random(50, 550), random(50, 200), 3)],
+        [6.5, this.firework(600, 600, random(50, 550), random(50, 200), 3)],
       ],
       [
         [1, this.trail(0, 150, 600, 100, 1, 8)],
@@ -158,7 +159,7 @@ class Altale extends Stage {
       ],
       [
         [1, this.trail(50, 600, 250, 0, 1, 8)],
-        [4, this.path(this.para1, true, 0, 8)]
+        [4, this.path(this.para1, true, true, 0, 8)]
       ],
       [
         [1, this.falling(100)],
@@ -231,32 +232,32 @@ class Altale extends Stage {
         [6, this.firework(600, 90, 280, 90, 2)],
       ],
       [
-        [1, this.trail(0, 140, 600, 140, 3, 2)],
+        [1, this.trail(0, 140, 600, 140, 3, 2, true, 0.03, 0, 0.2)],
         [2, this.firework(0, 150, 320, 150, 2)],
         [3, this.firework(600, 80, 310, 80, 2)],
-        [4, this.trail(0, 120, 600, 120, 3, 2)],
+        [4, this.trail(0, 120, 600, 120, 3, 2, true, 0.03, 0, 0.2)],
         [5, this.firework(0, 160, 260, 160, 2)],
         [6, this.firework(600, 70, 290, 70, 2)],
       ],
       [
-        [2, this.trail(0, 160, 600, 160, 1, 6)],
+        [2, this.trail(0, 160, 600, 160, 1, 6, true, 0.03, 0, 0.2)],
         [2, this.firework(0, 140, 290, 140, 2)],
-        [3, this.trail(600, 150, 0, 150, 1, 6)],
+        [3, this.trail(600, 150, 0, 150, 1, 6, true, 0.03, 0, 0.2)],
         [3, this.firework(600, 160, 280, 160, 2)],
-        [4, this.trail(0, 80, 600, 80, 1, 6)],
+        [4, this.trail(0, 80, 600, 80, 1, 6, true, 0.03, 0, 0.2)],
         [5, this.firework(0, 170, 340, 170, 2)],
         [6, this.firework(600, 60, 300, 60, 2)],
       ],
       [
-        [1, this.trail(0, 140, 600, 140, 3, 2, 0.03, 0, 0.2)],
+        [1, this.trail(0, 140, 600, 140, 3, 2, true, 0.03, 0, 0.2)],
         [2, this.firework(0, 150, 320, 150, 2)],
         [3, this.firework(600, 80, 310, 80, 2)],
-        [4, this.trail(600, 120, 0, 120, 3, 2, 0.03, 0, 0.2)],
+        [4, this.trail(600, 120, 0, 120, 3, 2, true, 0.03, 0, 0.2)],
         [5, this.firework(0, 160, 260, 160, 2)],
         [6, this.firework(600, 70, 290, 70, 2)],
       ],      
       [
-        [1, this.trail(0, 140, 600, 140, 4, 3, 0.03, 0, 0.2)],
+        [1, this.trail(0, 140, 600, 140, 4, 3, true, 0.03, 0, 0.2)],
         [2, this.firework(0, 140, 290, 140, 2)],
         [2, this.firework(0, 150, 300, 150, 2)],
         [5, this.firework(0, 170, 340, 170, 2)],
@@ -264,19 +265,19 @@ class Altale extends Stage {
       ],
       [
         [1, this.flower(300, 100, 5, 3, 60)],
-        [1, this.path(this.para2(0.4, 100), false, 2)],
-        [4, this.path(this.para2(-0.4, 200), false, 2)],
+        [1, this.path(this.para2(0.4, 100), false, true, 2)],
+        [4, this.path(this.para2(-0.4, 200), false, true, 2)],
       ],
       [
-        [1, this.path(this.para2(0.1, 400), false, 4, 0, 4)]
+        [1, this.path(this.para2(0.1, 400), false, true, 4, 0, 4)]
       ],
       [
         [1, this.flower(300, 100, 5, 7, 60)],
-        [1, this.path(this.para2(1, 100), false, 2)],
-        [4, this.path(this.para2(0.6, 250), false, 2)],
+        [1, this.path(this.para2(1, 100), false, true, 2)],
+        [4, this.path(this.para2(0.6, 250), false, true, 2)],
       ],
       [
-        [1, this.path(this.para2(2, 0, 6), false, 4, 0, 4)]
+        [1, this.path(this.para2(2, 0, 6), false, true, 4, 0, 4)]
       ],
       [
         [1, this.field(24, 10)],
@@ -297,15 +298,15 @@ class Altale extends Stage {
       ],
       [
         [1, this.firework(300, 600, 300, 100, 16)],
-        [1, this.path(this.para3, false, 4, 0, 4)],
+        [1, this.path(this.para3, false, true, 4, 0, 4)],
       ],
       [
-        [1, this.trail(0, 20, 600, 200, 2, 4, -0.1, 0, 0.2)],
-        [1.5, this.trail(0, 50, 600, 230, 2, 4, -0.1, 0, 0.2)],
-        [2, this.trail(30, 0, 600, 170, 2, 4, -0.1, 0, 0.2)],
-        [2.5, this.trail(10, 0, 600, 190, 2, 4, -0.1, 0, 0.2)],
-        [3, this.trail(0, 40, 600, 220, 2, 4, -0.1, 0, 0.2)],
-        [3.5, this.trail(0, 0, 600, 180, 2, 4, -0.1, 0, 0.2)],
+        [1, this.trail(0, 20, 600, 200, 2, 4, false, -0.1, 0, 0.2)],
+        [1.5, this.trail(0, 50, 600, 230, 2, 4, false, -0.1, 0, 0.2)],
+        [2, this.trail(30, 0, 600, 170, 2, 4, false, -0.1, 0, 0.2)],
+        [2.5, this.trail(10, 0, 600, 190, 2, 4, false, -0.1, 0, 0.2)],
+        [3, this.trail(0, 40, 600, 220, 2, 4, false, -0.1, 0, 0.2)],
+        [3.5, this.trail(0, 0, 600, 180, 2, 4, false, -0.1, 0, 0.2)],
       ],
       [
         [1, this.falling(180)],
@@ -345,7 +346,7 @@ class Altale extends Stage {
         [4, this.firework(450, 0, 450, 100, 4)],
       ],
       [
-        [1, this.path(this.para4, false, 0, 4, 4, true, 120, 0, 0xf0f076, 7)],
+        [1, this.path(this.para4, false, false, 0, 4, 4, true, 120, 0, 0xf0f076, 7)],
       ],
       [
         [5, this.firework(300, 0, 150, 150, 6, 3, 0x8000ff)],
@@ -370,23 +371,23 @@ class Altale extends Stage {
         [4, this.firework(600, 300, 0, 300, 8)],
       ],
       [
-        [1, this.path(this.para3, false, 4, 0, 3)],
+        [1, this.path(this.para3, false, true, 4, 0, 3)],
         [1, this.trail(600, 120, 0, 120, 1)],
         [4, this.trail(0, 120, 600, 120, 1)],
       ],
       [
         [1, this.firework(200, 600, 200, 150)],
         [4, this.firework(400, 600, 400, 150)],
-        [6, this.trail(600, 250, 480, 100, 1.5)],
+        [6, this.trail(600, 250, 480, 100, 1)],
       ],
       [
-        [1, this.flower(480, 100, 2, 3, 8, 0x8000ff, 1, false, Math.PI / 6)],
-        [1.5, this.trail(600, 600, 360, 100, 1.5)],
-        [2.5, this.flower(360, 100, 2, 3, 8, 0x8000ff, 1, false, Math.PI / 6)],
-        [3, this.trail(0, 600, 240, 100, 1.5)],
-        [4, this.flower(240, 100, 2, 3, 8, 0x8000ff, 1, false, Math.PI / 6)],
-        [4.5, this.trail(0, 250, 120, 100, 1.5)],
-        [5.5, this.flower(120, 100, 2, 3, 8, 0x8000ff, 1, false, Math.PI / 6)],
+        [1, this.flower(480, 100, 2, 3, 8, 0x8000ff, 2, false, Math.PI / 6)],
+        [1.5, this.trail(600, 600, 360, 100, 1)],
+        [2.5, this.flower(360, 100, 2, 3, 8, 0x8000ff, 2, false, Math.PI / 6)],
+        [3, this.trail(0, 600, 240, 100, 1)],
+        [4, this.flower(240, 100, 2, 3, 8, 0x8000ff, 2, false, Math.PI / 6)],
+        [4.5, this.trail(0, 250, 120, 100, 1)],
+        [5.5, this.flower(120, 100, 2, 3, 8, 0x8000ff, 2, false, Math.PI / 6)],
       ],
       [
         [1, this.firework(300, 600, 300, 100, 20)],
@@ -399,7 +400,7 @@ class Altale extends Stage {
         [4, this.firework(300, 600, 400, 100, 6, 1, 0xffb8b8)]
       ],
       [
-        [1, this.flower(300, 100, 1, 2, 32)],
+        [1, this.flower(300, 100, 1, 2, 30)],
         [5, this.falling(120)],
         [5.33, this.falling(240)],
         [5.67, this.falling(360)],
@@ -417,16 +418,16 @@ class Altale extends Stage {
         [1, this.firework(300, 600, 450, 100)],
         [3.67, this.firework(300, 600, 150, 100, 6, 0.67)],
         [4, this.firework(300, 600, 450, 100, 6, 1)],
-        [6, this.firework(120, 600, 120, 100, 16, 2)],
+        [6, this.firework(120, 600, 120, 100, 10, 2)],
       ],
       [
-        [1.5, this.firework(240, 600, 240, 100, 16, 2)],
-        [3, this.firework(360, 600, 360, 100, 16, 2)],
-        [4.5, this.firework(480, 600, 480, 100, 16, 2)],
-        [6, this.firework(300, 600, 300, 100, 32, 2, 0x8000ff)],
+        [1.5, this.firework(240, 600, 240, 100, 10, 2)],
+        [3, this.firework(360, 600, 360, 100, 10, 2)],
+        [4.5, this.firework(480, 600, 480, 100, 10, 2)],
+        [6, this.firework(300, 600, 300, 100, 20, 2, 0xff0000)],
       ],
       [
-        [1, this.trail(600, 150, 0, 50, 3)]
+        [1, this.trail(600, 150, 0, 50, 3, 4, true, 0.03, 0, 0, 0x8000ff)]
       ],
       [
         [1, this.firework(300, 0, 300, 100, 4, 1, 0xff00ff)]
@@ -482,21 +483,61 @@ class Altale extends Stage {
       ],
       [],
       [
-        [2, this.trail(0, 0, 600, 100, 2, 2, 0.02, 0, 0.2)],
-        [2.25, this.trail(0, 20, 600, 130, 2, 2, 0.02, 0.2, 0.2)],
-        [2.5, this.trail(0, 10, 600, 110, 2, 2, 0.02, 0.4, 0.2)],
+        [2, this.trail(0, 0, 600, 100, 2, 2, false, 0.02, 0, 0.2)],
+        [2.25, this.trail(0, 20, 600, 130, 2, 2, false, 0.02, 0.2, 0.2)],
+        [2.5, this.trail(0, 10, 600, 110, 2, 2, false, 0.02, 0.4, 0.2)],
         [2.5, this.firework(0, 30, 450, 100, 8, 11.8, 0xff8000, 0, -0.02)],
-        [2.75, this.trail(30, 0, 600, 85, 2, 2, 0.02, -0.3, 0.2)],
-        [3, this.trail(0, 50, 600, 150, 2, 2, 0.02, 0.6, 0.2)],
-        [3.25, this.trail(10, 0, 600, 95, 2, 2, 0.02, -0.1, 0.2)],
-        [3.5, this.trail(20, 0, 600, 90, 2, 2, 0.02, -0.4, 0.2)],
-        [3.75, this.trail(0, 60, 600, 160, 2, 2, 0.02, 0.7, 0.2)],
-        [4, this.trail(0, 20, 600, 120, 2, 2, 0.02, 0.1, 0.2)],
-        [4.25, this.trail(0, 40, 600, 140, 2, 2, 0.02, -0.2, 0.2)],
-        [4.5, this.trail(10, 0, 600, 95, 2, 2, 0.02, 0, 0.2)],
-        [4.75, this.trail(50, 0, 600, 75, 2, 2, 0.02, -0.5, 0.2)],
+        [2.75, this.trail(30, 0, 600, 85, 2, 2, false, 0.02, -0.3, 0.2)],
+        [3, this.trail(0, 50, 600, 150, 2, 2, false, 0.02, 0.6, 0.2)],
+        [3.25, this.trail(10, 0, 600, 95, 2, 2, false, 0.02, -0.1, 0.2)],
+        [3.5, this.trail(20, 0, 600, 90, 2, 2, false, 0.02, -0.4, 0.2)],
+        [3.75, this.trail(0, 60, 600, 160, 2, 2, false, 0.02, 0.7, 0.2)],
+        [4, this.trail(0, 20, 600, 120, 2, 2, false, 0.02, 0.1, 0.2)],
+        [4.25, this.trail(0, 40, 600, 140, 2, 2, false, 0.02, -0.2, 0.2)],
+        [4.5, this.trail(10, 0, 600, 95, 2, 2, false, 0.02, 0, 0.2)],
+        [4.75, this.trail(50, 0, 600, 75, 2, 2, false, 0.02, -0.5, 0.2)],
       ]
     ];
     this.tempo = 180; //this has to be present for tempo changes to work!
+  }
+  
+  buildStoryboard() {
+    this.storyboard = [
+      [
+        [1, "backCol", [0x060612, this.getTime(6)]],
+      ], [], [], [],
+      [
+        [4, "backCol", [0x0a0a26, this.getTime(3)]],
+      ], [], [], 
+      [
+        [4, "backCol", [0x1e1e46, this.getTime(3)]],
+      ], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [],
+      [
+        [1, "backCol", [0x964b19, this.getTime(24)]],
+      ], [], [], [],
+      [
+        [1, "backCol", [0x50283c, this.getTime(24)]],
+      ], [], [], [],
+      [
+        [1, "backCol", [0x0a0a26, this.getTime(12)]],
+      ], [], [], [], [], [
+        [1, "backCol", [0x1e1e46, 1]],
+        [1.1, "backCol", [0x0a0a26, this.getTime(6)]],
+      ], [], [], [], [], [
+        [4, "backCol", [0x1e1e46, this.getTime(3)]],
+      ], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [
+        [1, "backCol", [0x0a0a26, this.getTime(6)]],
+      ], [], [], [], [], [], [], [], [], [],
+      [
+        [1, "backCol", [0x060612, this.getTime(12)]],
+      ],
+      [],
+      [
+        [1.6, "backCol", [0x0a0a26, 2]],
+        [1.9, "backCol", [0x060612, this.getTime(6)]],
+      ]
+    ];
+    this.tempo = 180;
+    return this.createStoryboard();
   }
 }

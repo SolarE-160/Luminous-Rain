@@ -13,12 +13,13 @@ class Stage extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("bb", "bb.png");
+    this.load.image("bb", "assets/bb.png");
     this.getSong(this.songPath);
   }
 
   create() {
-    this.t = 0;
+    
+    this.t = settings.startTime;
     this.flicker = 0;
 
     this.audioPlaying = false;
@@ -62,7 +63,9 @@ class Stage extends Phaser.Scene {
     this.player.add(playerOutline);
     this.player.add(playerCenter);
     this.player.add(playerHitbox);
-
+    
+    this.glow = this.add.layer();
+    //this.glow.setVisible(false);
     this.bullets = this.physics.add.group();
     this.bulletEffects = this.physics.add.group();
     /*
@@ -116,8 +119,12 @@ class Stage extends Phaser.Scene {
       this.player.getChildren()[3],
       (player, bullet) => {
         //console.log("die");
-        if (bullet instanceof Bullet && !bullet.dec) {
+        if ((bullet instanceof Bullet ||
+             bullet instanceof PulsarBullet ||
+             bullet instanceof StarBullet
+            ) && !bullet.dec && bullet.delay <= 0) {
           bullet.destroy();
+          bullet.glow.destroy();
         }
       }
     );
@@ -160,14 +167,39 @@ class Stage extends Phaser.Scene {
         yoyo: false,
       },
     });
+    this.loadingText = [];
+    for (let i = 0; i < 3; i++) {
+      this.loadingText[i] = this.add.text(300, 200, "Loading...", {
+        fontSize: 50,
+        align: "center",
+        color: "#f0f076",
+        stroke: "#f0f076",
+        strokeThickness: 3,
+        padding: {
+          x: 20,
+          y: 20,
+        }
+      }).setShadow(0, 0, "#f0f076", 20).setOrigin(0.5, 0.5);
+    }
     
     this.keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
     
     
     this.level = this.run();
     this.level.push([9999999, ""]);
+    if (this.storyboard) {
+      this.storyboardLevel = this.buildStoryboard();
+    } else {
+      this.storyboardLevel = [];
+    }
+    this.storyboardEvents = [];
+    //console.log(this.level[0][0]);
+    
+    this.cameras.main.setBackgroundColor("#1e1e46");
+    this.cameras.main.fadeIn(1000, 0, 0, 0);
   }
 
+  /*
   createBullet(x, y, vx, vy, r, delay, grav = 0.01, color = 0x0080ff, dec = false, life = 999999, para = false) {
     let singlebullet = this.add.bullet(x, y, vx, vy, r, delay, grav, color, dec, life, para);
     singlebullet.depth = 3;
@@ -175,6 +207,7 @@ class Stage extends Phaser.Scene {
     if (!singlebullet.active) {
       return;
     }
+    /*
     let singlebulleteffect;
     if (settings.glow) {
       singlebulleteffect = this.add.pointlight(
@@ -197,10 +230,13 @@ class Stage extends Phaser.Scene {
     singlebulleteffect.parent = singlebullet;
     singlebulleteffect.depth = 2;
     this.bulletEffects.add(singlebulleteffect);
+    
   }
+  */
 
   update() {
     if (this.keyP.isDown) {
+      this.sound.sourceNode.stop();
       this.scene.stop();
       this.scene.start("Main Menu");
     }
@@ -241,6 +277,7 @@ class Stage extends Phaser.Scene {
           let newBullets = this.level.shift();
           //console.log(newBullets);
           for (let newBullet of newBullets[1]) {
+            /*
             let newWarning;
             switch (newBullet[0]) {
               case "bullet":
@@ -256,6 +293,8 @@ class Stage extends Phaser.Scene {
                 this.bullets.add(newWarning);
                 break;
             }
+            */
+            this.bullets.add(newBullet);
           }
         } else if (this.level[0][0] < this.t) {
           this.level.shift();
@@ -274,33 +313,58 @@ class Stage extends Phaser.Scene {
       this.sound.sourceNode.start(0);
       this.audioPlaying = true;
       this.loadingCircle.stop();
+      for (let singleText of this.loadingText) {
+        singleText.destroy();
+      }
     }
 
-    if (this.audioPlaying) {
-      this.sound.analyserNode.getByteTimeDomainData(this.sound.amplitudeArray);
-      let max = Math.max(...this.sound.amplitudeArray);
-      //console.log((max - 128) / 128)
-      //this.flicker = 1 / (1.25 + Math.exp(((max - 128) / 128 - 0.8) * -15)) + 0.2;
-      this.flicker = ((max - 128) / 128) * 0.8 + 0.2;
-    } else {
-      this.flicker = 0.2;
-    }
+    this.setFlicker();
 
     //console.log(this.bullets.getLength());
 
     // 1st pass, actual bullets
     for (let singlebullet of this.bullets.getChildren()) {
-      if (singlebullet.exited || singlebullet.life <= 0) {
+      if ((singlebullet.exited || singlebullet.life <= 0)) {
+        //console.log(singlebullet.constructor.name);
+        singlebullet.glow.destroy();
         this.bullets.remove(singlebullet, true, true);
         continue;
       }
-      singlebullet.move();
-      if (singlebullet instanceof CircleWarning || singlebullet instanceof LineWarning) {
-        if (singlebullet.length >= singlebullet.fullLength) {
-          this.bullets.remove(singlebullet, true, true);
+      if (singlebullet instanceof PulsarBullet) {
+        singlebullet.pulse(this.flicker);
+        //console.log("what")
+      } else if (singlebullet instanceof StarBullet) {
+        singlebullet.rotate();
+      } else {
+        singlebullet.move();
+        if (singlebullet instanceof CircleWarning || singlebullet instanceof LineWarning) {
+          if (singlebullet.length >= singlebullet.fullLength) {
+            this.bullets.remove(singlebullet, true, true);
+          }
         }
       }
     }
+    
+    //storyboard processing
+    if (this.storyboardLevel.length > 0) {
+        for (let element of this.storyboardLevel) {
+          if (element[0] == this.t) {
+            //print(element);
+            this.evalStoryboard(element[1], element[2]);
+          }
+        }
+    }
+    //console.log(this.storyboardEvents.length);
+    for (let event of this.storyboardEvents) {
+      //console.log(this.t, event.it + event.dur);
+      if (this.t > event.it + event.dur) {
+        this.storyboardEvents.splice(this.storyboardEvents.indexOf(event), 1);
+      } else if (this.t >= event.it) {
+        event.run(this, this.t);
+      }
+    }
+    
+    /*
     // 2nd pass, bullet glow/outline
     for (let singlebulleteffects of this.bulletEffects.getChildren()) {
       if (singlebulleteffects.parent.active) {
@@ -312,6 +376,7 @@ class Stage extends Phaser.Scene {
         this.bulletEffects.remove(singlebulleteffects, true, true);
       }
     }
+    */
 
     //this.flicker = Math.sin(this.t / 10) * 0.5 + 0.5;
 
@@ -361,5 +426,46 @@ class Stage extends Phaser.Scene {
     } else {
       this.player.setVelocityY(0);
     }
+    let col = this.cameras.main.backgroundColor;
+    //console.log(col.r, col.g, col.b);
+  }
+  
+  evalStoryboard(type, i) {
+    switch (type) {
+      case "backCol":
+        let col = Phaser.Display.Color.IntegerToColor(i[0]);
+        //this.cameras.main.fade(200, i.r, i.g, i.b);
+        let curBackCol = this.cameras.main.backgroundColor;
+        //console.log(col.r, col.g, col.b)
+        this.storyboardEvents.push(new BackgroundFade(this.t, i[1], curBackCol.r, curBackCol.g, curBackCol.b, col.r, col.g, col.b));
+        break;
+      default:
+        console.error("Error: Storyboard element " + type + " does not exist")
+    }
+  }
+  
+}
+
+// storyboard events that happen over time
+class BackgroundFade {
+  constructor(it, dur, ir, ig, ib, fr, fg, fb) {
+    this.it = it;
+    this.dur = dur;
+    this.ir = ir;
+    this.ig = ig;
+    this.ib = ib;
+    this.fr = fr;
+    this.fg = fg;
+    this.fb = fb;
+    //console.log(this.ir, this.ig, this.ib);
+  }
+  
+  run(scene, t) {
+    let r = this.ir + (t - this.it) / this.dur * (this.fr - this.ir);
+    let g = this.ig + (t - this.it) / this.dur * (this.fg - this.ig);
+    let b = this.ib + (t - this.it) / this.dur * (this.fb - this.ib);
+    let col = Phaser.Display.Color.RGBToString(r, g, b);
+    scene.cameras.main.setBackgroundColor(col);
+    //console.log(r, g, b)
   }
 }
